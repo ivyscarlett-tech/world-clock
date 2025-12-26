@@ -20,7 +20,24 @@ function updateCity(event) {
     if (cityTimeZone === "current") {
         cityTimeZone = moment.tz.guess();
     }
-    let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+     let cityName;
+  const selectedCityText = event.target.options[event.target.selectedIndex].text;
+
+  const targetTimezones = [
+    "America/Chicago",
+    "America/New_York",
+    "Europe/Istanbul",
+    "America/Jamaica",
+    "Asia/Kolkata",
+  ];
+
+  if (targetTimezones.includes(cityTimeZone)) {
+    // If it's a special case, use the text from the dropdown (e.g., "Minneapolis")
+    cityName = selectedCityText;
+  } else {
+    // For all other cities, use your original logic to get the name from the timezone
+    cityName = cityTimeZone.split("/")[1].replace("_", " ");
+  }
     let cityTime = moment().tz(cityTimeZone);
     let citiesElement = document.querySelector("#cities");
     citiesElement.innerHTML = `
